@@ -1,0 +1,6 @@
+{
+  "name": "CogniFlow AI Analytics Dashboard",
+  "description": "Enterprise intelligence simulator, decision engine monitor, and rule generator with collaborative AI Copilot.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
