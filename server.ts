@@ -1,14 +1,10 @@
 import express from "express";
 import path from "path";
-import { fileURLToPath } from "url";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
 
 // Load environment variables
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
@@ -127,15 +123,15 @@ app.post("/api/copilot", async (req, res) => {
         ? "You are Compliance Watchdog, an autonomous agent auditing decisions for regulatory alignment. You analyze rules against GDPR, SOC2 Type II, ISO 27001, and guidelines like the EU AI Act. Answer regulatory questions clearly, highlighting gaps or recommended optimizations."
         : "You are CogniFlow RuleGPT Assistant. Your role is to help write, review, optimize and stress-test autonomous business rules and policy logic gates. Suggest dynamic scores, threshold adjustments, and logic paths for optimal revenue and low risk.";
 
-    const formattedContents = messages.map((msg: any) => ({
-      role: msg.role === "assistant" ? "assistant" : "user",
+    const formattedContents: Array<{role: "user" | "assistant" | "system"; content: string}> = messages.map((msg: any) => ({
+      role: (msg.role === "assistant" ? "assistant" : "user") as "user" | "assistant",
       content: msg.content
     }));
 
     formattedContents.unshift({ role: "system", content: systemPrompt });
     const response = await ai.chat.completions.create({
       model: "llama-3.3-70b-versatile",
-      messages: formattedContents,
+      messages: formattedContents as any,
       temperature: 0.7,
     });
 
